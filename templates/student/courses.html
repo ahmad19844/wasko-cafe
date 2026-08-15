@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+<h4 class="mb-3">Available Courses</h4>
+
+<div class="bank-box mb-4">
+  <strong>Course fee: NGN10,000</strong> — pay to
+  <strong>FIRST BANK</strong>,
+  Account Number <strong>3032996242</strong>, Account Name <strong>MUHAMMAD AHMAD</strong>.
+  Your course stays <em>pending</em> until the admin confirms your payment.
+</div>
+
+<div class="row g-3">
+  {% for c in courses %}
+  <div class="col-md-4">
+    <div class="card card-wasko h-100">
+      <div class="card-body d-flex flex-column">
+        <h5>{{ c.title }}</h5>
+        <p class="text-muted small flex-grow-1">{{ c.description or "Practical, hands-on computer training." }}</p>
+        {% set e = my_enrollments.get(c.id) %}
+        {% if e and e.status == 'active' %}
+          <a href="{{ url_for('course_detail', course_id=c.id) }}" class="btn btn-success btn-sm">Open Course</a>
+        {% elif e %}
+          <span class="badge badge-pending align-self-start">Pending Payment Confirmation</span>
+        {% else %}
+          <form method="POST" action="{{ url_for('enroll_course', course_id=c.id) }}">
+            <button type="submit" class="btn btn-primary btn-sm w-100">Register For This Course</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <p class="text-muted">No courses have been added yet — please check back soon.</p>
+  {% endfor %}
+</div>
+{% endblock %}

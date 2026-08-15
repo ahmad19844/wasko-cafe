@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Student Registration — WASKO Virtual Academy{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <div class="card card-wasko">
+      <div class="card-body p-4">
+        <h4 class="mb-3 text-center">New Student Registration</h4>
+        <form method="POST" enctype="multipart/form-data">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Full Name</label>
+              <input type="text" name="full_name" class="form-control" value="{{ form.get('full_name','') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" value="{{ form.get('email','') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone Number</label>
+              <input type="text" name="phone_number" class="form-control" value="{{ form.get('phone_number','') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">WhatsApp Number</label>
+              <input type="text" name="whatsapp_number" class="form-control" value="{{ form.get('whatsapp_number','') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">State</label>
+              <input type="text" name="state" class="form-control" value="{{ form.get('state','Sokoto') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">LGA</label>
+              <input type="text" name="lga" class="form-control" value="{{ form.get('lga','') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Username</label>
+              <input type="text" name="username" class="form-control" value="{{ form.get('username','') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Password <small class="text-muted">(exactly 12 characters, letters + numbers)</small></label>
+              <input type="text" name="password" class="form-control" minlength="12" maxlength="12" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Passport Photograph</label>
+              <input type="file" name="passport" class="form-control" accept=".jpg,.jpeg,.png" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 mt-4">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

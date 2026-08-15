@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ quiz.title }} — Questions{% endblock %}
+{% block content %}
+<h4 class="mb-1">{{ quiz.title }}</h4>
+<p class="text-muted">{{ quiz.course.title }} &middot; {{ 'Exam' if quiz.is_exam else 'Quiz' }} &middot; pushed to all students enrolled in this course</p>
+
+<div class="card card-wasko mb-4">
+  <div class="card-body">
+    <h6>Add a Question</h6>
+    <form method="POST" class="row g-2">
+      <div class="col-12">
+        <input type="text" name="text" class="form-control" placeholder="Question text" required>
+      </div>
+      <div class="col-md-6"><input type="text" name="option_a" class="form-control" placeholder="Option A" required></div>
+      <div class="col-md-6"><input type="text" name="option_b" class="form-control" placeholder="Option B" required></div>
+      <div class="col-md-6"><input type="text" name="option_c" class="form-control" placeholder="Option C" required></div>
+      <div class="col-md-6"><input type="text" name="option_d" class="form-control" placeholder="Option D" required></div>
+      <div class="col-md-4">
+        <select name="correct_option" class="form-select" required>
+          <option value="" disabled selected>Correct option</option>
+          <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+        </select>
+      </div>
+      <div class="col-md-3"><button class="btn btn-primary w-100">Add Question</button></div>
+    </form>
+  </div>
+</div>
+
+<h6>Existing Questions ({{ quiz.questions|length }})</h6>
+<ol class="list-group list-group-numbered">
+  {% for q in quiz.questions %}
+  <li class="list-group-item">
+    {{ q.text }}
+    <div class="small text-muted">A) {{ q.option_a }} &nbsp; B) {{ q.option_b }} &nbsp; C) {{ q.option_c }} &nbsp; D) {{ q.option_d }} — Correct: {{ q.correct_option }}</div>
+  </li>
+  {% else %}
+  <li class="list-group-item text-muted">No questions yet.</li>
+  {% endfor %}
+</ol>
+{% endblock %}

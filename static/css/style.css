@@ -1,0 +1,78 @@
+:root {
+  --wasko-navy: #0b2447;
+  --wasko-blue: #19376d;
+  --wasko-gold: #f4b400;
+}
+
+body {
+  background: #f5f7fb;
+}
+
+.wasko-navbar {
+  background: linear-gradient(90deg, var(--wasko-navy), var(--wasko-blue));
+}
+
+.wasko-badge {
+  background: var(--wasko-gold);
+  color: var(--wasko-navy);
+  font-weight: 800;
+  padding: .25rem .6rem;
+  border-radius: .4rem;
+  letter-spacing: .5px;
+}
+
+.hero {
+  background: radial-gradient(circle at top right, var(--wasko-blue), var(--wasko-navy));
+  color: #fff;
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+}
+
+.hero .wasko-badge {
+  font-size: 1.4rem;
+}
+
+.card-wasko {
+  border: none;
+  border-radius: .75rem;
+  box-shadow: 0 4px 18px rgba(11, 36, 71, .08);
+}
+
+.avatar-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--wasko-gold);
+}
+
+.passport-photo {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: .5rem;
+  border: 3px solid var(--wasko-gold);
+}
+
+.bank-box {
+  background: #fff8e1;
+  border: 1px dashed var(--wasko-gold);
+  border-radius: .5rem;
+  padding: 1rem;
+}
+
+.badge-locked { background: #dc3545; }
+.badge-open { background: #198754; }
+.badge-pending { background: #fd7e14; }
+
+.wasko-footer {
+  background: var(--wasko-navy);
+  color: #cfe0ff;
+}
+
+.student-thumb img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: .5rem 0.5rem 0 0;
+}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}{{ course.title }}{% endblock %}
+{% block content %}
+<h4 class="mb-4">{{ course.title }}</h4>
+
+<div class="card card-wasko mb-4">
+  <div class="card-body">
+    <h5>Course Materials</h5>
+    {% if course.materials %}
+      <ul class="list-group list-group-flush">
+        {% for m in course.materials %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ m.title }}
+            <a href="{{ url_for('download_material', material_id=m.id) }}" class="btn btn-sm btn-outline-primary">Download</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted mb-0">No materials uploaded yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card card-wasko mb-4">
+  <div class="card-body">
+    <h5>Quizzes & Exams</h5>
+    {% if course.quizzes %}
+      <ul class="list-group list-group-flush">
+        {% for q in course.quizzes %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ q.title }} {% if q.is_exam %}<span class="badge bg-danger">Exam</span>{% endif %}
+            {% set attempt = my_attempts.get(q.id) %}
+            {% if attempt %}
+              <span class="badge bg-success">Scored {{ attempt.score }}/{{ attempt.total }}</span>
+            {% else %}
+              <a href="{{ url_for('take_quiz', quiz_id=q.id) }}" class="btn btn-sm btn-outline-primary">Take Now</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted mb-0">No quizzes posted yet.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card card-wasko mb-4">
+  <div class="card-body">
+    <h5>Assignments</h5>
+    {% if course.assignments %}
+      {% for a in course.assignments %}
+        {% set submission = my_submissions.get(a.id) %}
+        {% set locked = a.is_locked_for(current_user.id) %}
+        <div class="border rounded p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+            <div>
+              <h6 class="mb-1">{{ a.title }}</h6>
+              <p class="text-muted small mb-1">{{ a.instructions }}</p>
+              <p class="text-muted small mb-0">Deadline: {{ a.deadline.strftime('%d %b %Y, %H:%M') }} UTC ({{ a.window_hours }}h window)</p>
+              {% if a.filename %}
+                <a href="{{ url_for('download_assignment_file', assignment_id=a.id) }}" class="small">Download assignment file</a>
+              {% endif %}
+            </div>
+            {% if submission %}
+              <span class="badge badge-open align-self-start">Submitted {{ submission.submitted_at.strftime('%d %b, %H:%M') }}</span>
+            {% elif locked %}
+              <span class="badge badge-locked align-self-start">Locked — Late Fee Required</span>
+            {% else %}
+              <span class="badge badge-pending align-self-start">Open</span>
+            {% endif %}
+          </div>
+
+          {% if not submission %}
+            {% if locked %}
+              <div class="bank-box mt-3 small">
+                Deadline passed. Pay <strong>NGN1,000</strong> to <strong>FIRST BANK</strong>,
+                Account <strong>3032996242</strong> (MUHAMMAD AHMAD), then email proof of
+                payment with your registration number
+                (<strong>{{ current_user.registration_number }}</strong>) to
+                <strong>amy33375@gmail.com</strong>. The admin will unlock your submission
+                once verified.
+              </div>
+            {% else %}
+              <form method="POST" action="{{ url_for('submit_assignment', assignment_id=a.id) }}" enctype="multipart/form-data" class="mt-3 d-flex gap-2 flex-wrap">
+                <input type="file" name="submission_file" class="form-control form-control-sm" style="max-width: 280px;" required>
+                <button type="submit" class="btn btn-primary btn-sm">Submit Assignment</button>
+              </form>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-muted mb-0">No assignments posted yet.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ quiz.title }}{% endblock %}
+{% block content %}
+<h4 class="mb-3">{{ quiz.title }}</h4>
+<form method="POST">
+  {% for q in quiz.questions %}
+    <div class="card card-wasko mb-3">
+      <div class="card-body">
+        <p class="fw-semibold">{{ loop.index }}. {{ q.text }}</p>
+        {% for opt, label in [('A', q.option_a), ('B', q.option_b), ('C', q.option_c), ('D', q.option_d)] %}
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="q{{ q.id }}" value="{{ opt }}" id="q{{ q.id }}{{ opt }}" required>
+          <label class="form-check-label" for="q{{ q.id }}{{ opt }}">{{ opt }}. {{ label }}</label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <p class="text-muted">No questions have been added to this quiz yet.</p>
+  {% endfor %}
+  {% if quiz.questions %}
+    <button type="submit" class="btn btn-primary">Submit Answers</button>
+  {% endif %}
+</form>
+{% endblock %}

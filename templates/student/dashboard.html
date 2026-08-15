@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card card-wasko text-center">
+      <div class="card-body">
+        <img src="{{ url_for('static', filename='uploads/passports/' ~ student.passport_filename) }}" class="passport-photo mb-3" alt="{{ student.full_name }}">
+        <h5 class="mb-0">{{ student.full_name }}</h5>
+        <p class="text-muted mb-1">{{ student.registration_number }}</p>
+        <p class="text-muted small mb-0">{{ student.email }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card card-wasko mb-3">
+      <div class="card-body">
+        <h5>My Courses</h5>
+        {% if student.enrollments %}
+          <ul class="list-group list-group-flush">
+            {% for e in student.enrollments %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ e.course.title }}
+                {% if e.status == 'active' %}
+                  <a href="{{ url_for('course_detail', course_id=e.course_id) }}" class="badge badge-open text-decoration-none">Active — Open</a>
+                {% else %}
+                  <span class="badge badge-pending">Pending Payment Confirmation</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">You haven't registered for a course yet.</p>
+        {% endif %}
+        <a href="{{ url_for('course_catalog') }}" class="btn btn-outline-primary btn-sm mt-3">Browse / Register Courses</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

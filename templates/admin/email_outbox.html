@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Email Outbox{% endblock %}
+{% block content %}
+<h4 class="mb-3">Email Outbox</h4>
+<p class="text-muted small">Every email the system "sends" (e.g. forgot-password) is logged here too — handy while testing before real SMTP credentials are configured on Render.</p>
+{% for e in emails %}
+<div class="card card-wasko mb-2">
+  <div class="card-body py-2">
+    <div class="d-flex justify-content-between">
+      <strong>{{ e.subject }}</strong>
+      <span class="badge {{ 'bg-success' if e.sent_via_smtp else 'bg-secondary' }}">{{ 'Sent via SMTP' if e.sent_via_smtp else 'Logged only' }}</span>
+    </div>
+    <div class="small text-muted">To: {{ e.to_email }} &middot; {{ e.created_at.strftime('%d %b %Y, %H:%M') }}</div>
+    <pre class="small mt-2 mb-0" style="white-space: pre-wrap;">{{ e.body }}</pre>
+  </div>
+</div>
+{% else %}
+<p class="text-muted">No emails logged yet.</p>
+{% endfor %}
+{% endblock %}

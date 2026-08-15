@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Manage Courses{% endblock %}
+{% block content %}
+<h4 class="mb-3">Courses</h4>
+
+<div class="card card-wasko mb-4">
+  <div class="card-body">
+    <h6>Add a New Course</h6>
+    <form method="POST" class="row g-2">
+      <div class="col-md-4">
+        <input type="text" name="title" class="form-control" placeholder="Course title" required>
+      </div>
+      <div class="col-md-6">
+        <input type="text" name="description" class="form-control" placeholder="Short description">
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100">Add Course</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="table-responsive">
+<table class="table table-bordered bg-white">
+  <thead class="table-light"><tr><th>Title</th><th>Description</th><th>Enrolled</th></tr></thead>
+  <tbody>
+    {% for c in courses %}
+    <tr>
+      <td>{{ c.title }}</td>
+      <td class="text-muted small">{{ c.description }}</td>
+      <td>{{ c.enrollments|selectattr('status','equalto','active')|list|length }} active / {{ c.enrollments|length }} total</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3" class="text-center text-muted">No courses yet — add one above.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

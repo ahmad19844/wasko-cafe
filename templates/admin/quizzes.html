@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Quizzes & Exams{% endblock %}
+{% block content %}
+<h4 class="mb-3">Create Quiz / Exam</h4>
+
+<div class="card card-wasko mb-4">
+  <div class="card-body">
+    <form method="POST" class="row g-2 align-items-center">
+      <div class="col-md-3">
+        <select name="course_id" class="form-select" required>
+          <option value="" disabled selected>Select course</option>
+          {% for c in courses %}<option value="{{ c.id }}">{{ c.title }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <input type="text" name="title" class="form-control" placeholder="Quiz / exam title" required>
+      </div>
+      <div class="col-md-3 form-check ms-2">
+        <input type="checkbox" name="is_exam" class="form-check-input" id="isExam">
+        <label class="form-check-label" for="isExam">This is a formal Exam</label>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="table-responsive">
+<table class="table table-bordered bg-white align-middle">
+  <thead class="table-light"><tr><th>Course</th><th>Title</th><th>Type</th><th>Questions</th><th>Attempts</th><th></th></tr></thead>
+  <tbody>
+    {% for q in quizzes %}
+    <tr>
+      <td>{{ q.course.title }}</td>
+      <td>{{ q.title }}</td>
+      <td>{{ 'Exam' if q.is_exam else 'Quiz' }}</td>
+      <td>{{ q.questions|length }}</td>
+      <td>{{ q.attempts|length }}</td>
+      <td><a href="{{ url_for('admin_quiz_detail', quiz_id=q.id) }}" class="btn btn-sm btn-outline-primary">Manage Questions</a></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="text-center text-muted">No quizzes created yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

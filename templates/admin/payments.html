@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Confirm Payments{% endblock %}
+{% block content %}
+<h4 class="mb-3">Course Payment Confirmations</h4>
+<p class="text-muted small">Course fee is NGN10,000 to FIRST BANK, Acct 3032996242 (MUHAMMAD AHMAD). Confirm here once you've verified a student's payment.</p>
+
+<div class="table-responsive mb-5">
+<table class="table table-bordered bg-white align-middle">
+  <thead class="table-light"><tr><th>Student</th><th>Reg. No.</th><th>Course</th><th>Requested</th><th>Action</th></tr></thead>
+  <tbody>
+    {% for e in pending %}
+    <tr>
+      <td>{{ e.student.full_name }}</td>
+      <td>{{ e.student.registration_number }}</td>
+      <td>{{ e.course.title }}</td>
+      <td>{{ e.requested_at.strftime('%d %b %Y, %H:%M') }}</td>
+      <td>
+        <form method="POST" action="{{ url_for('admin_confirm_payment', enrollment_id=e.id) }}">
+          <button class="btn btn-sm btn-success">Confirm Payment & Grant Access</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="text-center text-muted">No pending payments.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h5 class="mb-3">Recently Confirmed</h5>
+<div class="table-responsive">
+<table class="table table-bordered bg-white">
+  <thead class="table-light"><tr><th>Student</th><th>Course</th><th>Confirmed</th></tr></thead>
+  <tbody>
+    {% for e in active %}
+    <tr><td>{{ e.student.full_name }}</td><td>{{ e.course.title }}</td><td>{{ e.confirmed_at.strftime('%d %b %Y, %H:%M') if e.confirmed_at }}</td></tr>
+    {% else %}
+    <tr><td colspan="3" class="text-center text-muted">None yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

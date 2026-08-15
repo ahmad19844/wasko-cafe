@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Registered Students{% endblock %}
+{% block content %}
+<h4 class="mb-3">Registered Students ({{ students|length }})</h4>
+<div class="table-responsive">
+<table class="table table-bordered bg-white align-middle">
+  <thead class="table-light">
+    <tr>
+      <th>Photo</th>
+      <th>Reg. Number</th>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>WhatsApp</th>
+      <th>State / LGA</th>
+      <th>Username</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in students %}
+    <tr>
+      <td><img src="{{ url_for('static', filename='uploads/passports/' ~ s.passport_filename) }}" class="avatar-circle"></td>
+      <td>
+        <form method="POST" action="{{ url_for('admin_edit_reg_number', student_id=s.id) }}" class="d-flex gap-1">
+          <input type="text" name="registration_number" value="{{ s.registration_number }}" class="form-control form-control-sm" style="width:130px;">
+          <button class="btn btn-sm btn-outline-secondary" title="Save"><i class="bi bi-check"></i>Save</button>
+        </form>
+      </td>
+      <td>{{ s.full_name }}</td>
+      <td>{{ s.email }}</td>
+      <td>{{ s.phone_number }}</td>
+      <td>{{ s.whatsapp_number }}</td>
+      <td>{{ s.state }} / {{ s.lga }}</td>
+      <td>{{ s.username }}</td>
+      <td>
+        <form method="POST" action="{{ url_for('admin_delete_student', student_id=s.id) }}" onsubmit="return confirm('Delete {{ s.full_name }}? This cannot be undone.');">
+          <button class="btn btn-sm btn-outline-danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="9" class="text-center text-muted">No students registered yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

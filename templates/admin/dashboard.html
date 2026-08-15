@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h4 class="mb-4">Admin Dashboard</h4>
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card card-wasko text-center p-3">
+      <div class="display-6">{{ stats.students }}</div>
+      <div class="text-muted small">Registered Students</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-wasko text-center p-3">
+      <div class="display-6">{{ stats.courses }}</div>
+      <div class="text-muted small">Courses</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-wasko text-center p-3">
+      <div class="display-6">{{ stats.pending_payments }}</div>
+      <div class="text-muted small">Pending Course Payments</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card card-wasko text-center p-3">
+      <div class="display-6">{{ stats.locked_assignments }}</div>
+      <div class="text-muted small">Locked Assignments</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-md-4"><a href="{{ url_for('admin_students') }}" class="btn btn-outline-primary w-100 py-3">Registered Students</a></div>
+  <div class="col-md-4"><a href="{{ url_for('admin_courses') }}" class="btn btn-outline-primary w-100 py-3">Manage Courses</a></div>
+  <div class="col-md-4"><a href="{{ url_for('admin_payments') }}" class="btn btn-outline-primary w-100 py-3">Confirm Payments</a></div>
+  <div class="col-md-4"><a href="{{ url_for('admin_materials') }}" class="btn btn-outline-primary w-100 py-3">Upload Course Materials</a></div>
+  <div class="col-md-4"><a href="{{ url_for('admin_quizzes') }}" class="btn btn-outline-primary w-100 py-3">Create Quiz / Exam</a></div>
+  <div class="col-md-4"><a href="{{ url_for('admin_assignments') }}" class="btn btn-outline-primary w-100 py-3">Assignments & Unlocks</a></div>
+  <div class="col-md-4"><a href="{{ url_for('admin_email_outbox') }}" class="btn btn-outline-secondary w-100 py-3">Email Outbox (dev)</a></div>
+</div>
+{% endblock %}

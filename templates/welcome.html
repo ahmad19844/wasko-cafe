@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Welcome — WASKO Virtual Academy & Cyber Cafe{% endblock %}
+{% block content %}
+
+<div class="hero text-center mb-5">
+  <span class="wasko-badge d-inline-block mb-3">WASKO</span>
+  <h1 class="fw-bold">WELCOME TO WASKO VIRTUAL ACADEMY & CYBER CAFE</h1>
+  <h4 class="fw-light">Sokoto State, Nigeria — Digital Skills For All</h4>
+  <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
+    <a href="{{ url_for('login') }}" class="btn btn-warning btn-lg fw-semibold">Student / Admin Login</a>
+    <a href="{{ url_for('register') }}" class="btn btn-outline-light btn-lg">Register as a New Student</a>
+  </div>
+</div>
+
+<div class="row align-items-center g-4 mb-5">
+  <div class="col-md-4 text-center">
+    <img src="{{ url_for('static', filename='img/founder.jpg') }}" class="passport-photo" alt="Director">
+    <p class="mt-2 mb-0 fw-semibold">Muhammad Ahmad</p>
+    <small class="text-muted">CEO / Director, WASKO Virtual Academy</small>
+  </div>
+  <div class="col-md-8">
+    <h3>Computer Training For Everyone</h3>
+    <p class="text-muted">
+      WASKO Virtual Academy & Cyber Cafe trains students across Sokoto State in
+      practical computer and digital skills. Register online, enroll in a course,
+      download course materials, sit quizzes and exams, and submit assignments —
+      all from your student dashboard.
+    </p>
+  </div>
+</div>
+
+{% if students %}
+<h4 class="mb-3">Our Registered Students</h4>
+<div class="row g-3 mb-4">
+  {% for s in students %}
+  <div class="col-6 col-md-3">
+    <div class="card card-wasko h-100 student-thumb">
+      <img src="{{ url_for('static', filename='uploads/passports/' ~ s.passport_filename) }}" alt="{{ s.full_name }}">
+      <div class="card-body py-2 px-2 text-center">
+        <div class="small fw-semibold text-truncate">{{ s.full_name }}</div>
+        <div class="text-muted" style="font-size:.75rem;">{{ s.registration_number }}</div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if courses %}
+<h4 class="mb-3">Courses On Offer</h4>
+<div class="row g-3">
+  {% for c in courses %}
+  <div class="col-md-4">
+    <div class="card card-wasko h-100">
+      <div class="card-body">
+        <h5 class="card-title">{{ c.title }}</h5>
+        <p class="card-text text-muted small">{{ c.description or "Practical, hands-on computer training." }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

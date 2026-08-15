@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ assignment.title }} — Submissions{% endblock %}
+{% block content %}
+<h4 class="mb-1">{{ assignment.title }}</h4>
+<p class="text-muted">{{ assignment.course.title }} &middot; Deadline: {{ assignment.deadline.strftime('%d %b %Y, %H:%M') }} UTC</p>
+
+<div class="table-responsive">
+<table class="table table-bordered bg-white align-middle">
+  <thead class="table-light"><tr><th>Student</th><th>Reg. No.</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row.student.full_name }}</td>
+      <td>{{ row.student.registration_number }}</td>
+      <td>
+        {% if row.submitted %}<span class="badge badge-open">Submitted</span>
+        {% elif row.locked %}<span class="badge badge-locked">Locked — Awaiting Late Fee</span>
+        {% else %}<span class="badge badge-pending">Not Submitted (Still Open)</span>{% endif %}
+      </td>
+      <td>
+        {% if row.locked and not row.submitted %}
+        <form method="POST" action="{{ url_for('admin_unlock_assignment', assignment_id=assignment.id, student_id=row.student.id) }}">
+          <button class="btn btn-sm btn-success">Unlock After Late-Fee Verified</button>
+        </form>
+        {% else %}
+        <span class="text-muted small">—</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4" class="text-center text-muted">No students enrolled and paid for this course yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
